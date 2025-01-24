@@ -1,8 +1,8 @@
 from flask import Flask, request, jsonify
-from utils.alert_consumer import push_alert_to_queue
+from utils.alert_consumer import send_ntfy_notification
 import joblib  # For loading the trained model
 import pandas as pd
-from get_health import get_health
+from utils.get_health import get_health
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ def predict():
         prediction = model.predict(processed_data)[0]
         prediction_proba = model.predict_proba(processed_data).max()
         if prediction:
-            push_alert_to_queue(f"Device {data['device_id']} requires maintenance.")
+            send_ntfy_notification(f"Device {data['device_id']} requires maintenance.")
             
         result = {
             "device_id": data['device_id'],
