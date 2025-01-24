@@ -1,0 +1,101 @@
+device_id,failure_date,failure_reason
+device_15,2024-12-12 11:12:24.586532,Overheating
+device_7,2024-05-05 11:12:24.586538,Power Surge
+device_10,2024-06-27 11:12:24.586540,Hardware Failure
+device_6,2024-12-26 11:12:24.586542,Network Issues
+device_10,2024-07-28 11:12:24.586543,Hardware Failure
+device_8,2024-12-01 11:12:24.586546,Overheating
+device_11,2024-05-03 11:12:24.586548,Hardware Failure
+device_7,2024-07-20 11:12:24.586552,Network Issues
+device_1,2024-02-29 11:12:24.586555,Network Issues
+device_11,2024-10-11 11:12:24.586559,Overheating
+device_10,2024-06-14 11:12:24.586561,Power Surge
+device_5,2024-12-28 11:12:24.586564,Overheating
+device_14,2024-04-13 11:12:24.586567,Power Surge
+device_9,2024-12-28 11:12:24.586569,Overheating
+device_1,2024-12-01 11:12:24.586572,Power Surge
+device_12,2024-06-01 11:12:24.586575,Network Issues
+device_1,2024-05-22 11:12:24.586577,Network Issues
+device_17,2024-03-25 11:12:24.586580,Network Issues
+device_15,2024-05-31 11:12:24.586583,Overheating
+device_10,2024-08-01 11:12:24.586586,Overheating
+device_15,2024-02-29 11:12:24.586589,Power Surge
+device_12,2024-03-10 11:12:24.586592,Hardware Failure
+device_4,2024-04-23 11:12:24.586595,Network Issues
+device_13,2024-07-29 11:12:24.586597,Network Issues
+device_18,2024-04-07 11:12:24.586598,Network Issues
+device_4,2024-04-19 11:12:24.586600,Power Surge
+device_14,2024-08-02 11:12:24.586602,Overheating
+device_3,2024-04-02 11:12:24.586603,Network Issues
+device_14,2024-06-22 11:12:24.586605,Overheating
+device_15,2024-12-12 11:12:24.586609,Network Issues
+device_20,2025-01-03 11:12:24.586610,Network Issues
+device_13,2024-08-07 11:12:24.586612,Hardware Failure
+device_5,2024-12-18 11:12:24.586613,Network Issues
+device_13,2024-09-20 11:12:24.586615,Power Surge
+device_12,2024-10-22 11:12:24.586617,Hardware Failure
+device_18,2024-05-11 11:12:24.586618,Power Surge
+device_1,2024-05-16 11:12:24.586620,Hardware Failure
+device_13,2024-12-03 11:12:24.586621,Network Issues
+device_10,2024-10-09 11:12:24.586623,Hardware Failure
+device_15,2024-02-28 11:12:24.586624,Hardware Failure
+device_17,2024-03-21 11:12:24.586627,Power Surge
+device_6,2024-12-06 11:12:24.586628,Power Surge
+device_19,2024-06-30 11:12:24.586630,Network Issues
+device_11,2024-02-28 11:12:24.586631,Hardware Failure
+device_20,2024-07-16 11:12:24.586634,Network Issues
+device_10,2024-03-07 11:12:24.586636,Power Surge
+device_4,2025-01-08 11:12:24.586638,Power Surge
+device_12,2024-05-08 11:12:24.586639,Hardware Failure
+device_16,2024-01-28 11:12:24.586641,Overheating
+device_6,2024-04-05 11:12:24.586642,Hardware Failure
+device_1,2024-05-14 11:12:24.586644,Network Issues
+device_6,2024-07-05 11:12:24.586646,Power Surge
+device_14,2024-11-28 11:12:24.586647,Hardware Failure
+device_3,2024-04-24 11:12:24.586649,Overheating
+device_1,2024-04-03 11:12:24.586650,Hardware Failure
+device_1,2024-04-11 11:12:24.586652,Network Issues
+device_14,2024-11-20 11:12:24.586654,Network Issues
+device_12,2024-09-30 11:12:24.586655,Network Issues
+device_20,2024-10-10 11:12:24.586657,Overheating
+device_7,2025-01-09 11:12:24.586658,Power Surge
+device_20,2024-07-11 11:12:24.586660,Overheating
+device_12,2024-02-21 11:12:24.586661,Network Issues
+device_19,2024-06-15 11:12:24.586663,Hardware Failure
+device_3,2024-09-29 11:12:24.586664,Power Surge
+device_8,2024-07-11 11:12:24.586666,Network Issues
+device_17,2024-12-19 11:12:24.586668,Power Surge
+device_17,2024-02-29 11:12:24.586669,Power Surge
+device_11,2024-07-22 11:12:24.586671,Hardware Failure
+device_7,2024-03-14 11:12:24.586672,Overheating
+device_9,2024-05-21 11:12:24.586674,Network Issues
+device_11,2024-12-17 11:12:24.586676,Overheating
+device_4,2024-10-14 11:12:24.586677,Overheating
+device_13,2024-08-21 11:12:24.586679,Overheating
+device_10,2024-02-25 11:12:24.586680,Hardware Failure
+device_8,2024-10-26 11:12:24.586682,Power Surge
+device_2,2024-08-27 11:12:24.586684,Overheating
+device_16,2024-11-13 11:12:24.586685,Power Surge
+device_9,2024-10-23 11:12:24.586687,Hardware Failure
+device_4,2024-05-03 11:12:24.586688,Power Surge
+device_18,2024-03-17 11:12:24.586690,Network Issues
+device_3,2024-05-23 11:12:24.586692,Hardware Failure
+device_1,2024-04-16 11:12:24.586693,Hardware Failure
+device_15,2024-04-18 11:12:24.586695,Network Issues
+device_2,2024-10-29 11:12:24.586696,Network Issues
+device_17,2024-04-30 11:12:24.586698,Power Surge
+device_9,2024-04-26 11:12:24.586711,Overheating
+device_2,2024-11-22 11:12:24.586712,Power Surge
+device_12,2024-05-06 11:12:24.586714,Overheating
+device_2,2024-04-16 11:12:24.586716,Network Issues
+device_14,2024-10-13 11:12:24.586717,Network Issues
+device_9,2024-12-02 11:12:24.586719,Network Issues
+device_4,2024-09-04 11:12:24.586720,Overheating
+device_9,2024-05-09 11:12:24.586722,Power Surge
+device_2,2024-04-27 11:12:24.586724,Network Issues
+device_11,2024-10-26 11:12:24.586725,Overheating
+device_19,2024-10-16 11:12:24.586727,Power Surge
+device_8,2024-04-26 11:12:24.586729,Power Surge
+device_9,2024-08-21 11:12:24.586730,Hardware Failure
+device_15,2024-07-19 11:12:24.586732,Power Surge
+device_11,2025-01-01 11:12:24.586733,Hardware Failure
