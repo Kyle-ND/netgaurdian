@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from utils.alert_consumer import push_alert_to_queue
 import joblib  # For loading the trained model
 import pandas as pd
 from get_health import get_health
@@ -15,6 +16,9 @@ def predict():
         processed_data = df[['time_since_last_maintenance', 'average_usage', 'failure_count']]
         prediction = model.predict(processed_data)[0]
         prediction_proba = model.predict_proba(processed_data).max()
+        if prediction:
+            push_alert_to_queue(f"Device {data['device_id']} requires maintenance.")
+            
         result = {
             "device_id": data['device_id'],
             "maintenance_required": bool(prediction),
