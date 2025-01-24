@@ -17,15 +17,16 @@ def alert_admin_callback(ch, method, properties, body):
     """Callback function to handle incoming messages."""
     message = body.decode('utf-8')
     logging.info(f"Received alert: {message}")
-
-    try:
-        ntfy.publish(topic=NTFY_TOPIC,message=message,
-                        title="PC Maintenance Alert",
-                        priority="high")
-        logging.info("Sent notification using ntfy.")
-    except Exception as e:
-        logging.error(f"Error sending ntfy notification: {e}")
-
+    if "Critical" in message:
+        try:
+            ntfy.publish(topic=NTFY_TOPIC,message=message,
+                            title="PC Maintenance Alert",
+                            priority="high")
+            logging.info("Sent notification using ntfy.")
+        except Exception as e:
+            logging.error(f"Error sending ntfy notification: {e}")
+    else:
+         logging.info("Message ignored, not critical")
 
 def start_alert_service():
     """Sets up the RabbitMQ connection and starts consuming messages."""
