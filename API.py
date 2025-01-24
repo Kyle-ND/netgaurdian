@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import joblib  # For loading the trained model
 import pandas as pd
+from get_health import get_health
 
 app = Flask(__name__)
 
@@ -24,6 +25,13 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)})
     
+@app.route('/network-health', methods=['GET'])
+def network_health():
+    try:
+        response = get_health()
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": e}), 500
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
