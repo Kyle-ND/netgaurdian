@@ -37,6 +37,17 @@ def network_health():
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"error": e}), 500
+    
+@app.route('/devices', methods=['GET'])
+def get_devices():
+    try:
+        devices_df = pd.read_csv('./devices_data_100.csv')
+        devices = devices_df.to_dict(orient='records')
+        return jsonify(devices), 200
+    
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 
 @app.route('/devices', methods=['GET'])
 def devices():
