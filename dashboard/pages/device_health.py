@@ -44,6 +44,7 @@ def mock_device_data():
         {"device_id": "Device005", "name": "Modem E", "uptime_percentage": 88.5, "status": "Healthy"},
     ]
 
+# not done with this one
 # Function to fetch device by ID
 def get_device_by_id(device_id):
     devices = mock_device_data()

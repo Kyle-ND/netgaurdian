@@ -4,7 +4,7 @@ import pandas as pd
 
 # Replace with the actual API endpoints
 NETWORK_HEALTH_API = "http://localhost:5000/network-health"  # Update the URL to match your Flask API
-DEVICES_API = "http://localhost:5000/devices"  # Endpoint for devices data
+DEVICES_API = "http://localhost:5000/devices"  # Endpoint for devices data. You'll add the endpoint here
 
 st.set_page_config(
     page_title="Connectivity Health Monitoring Dashboard",
@@ -14,6 +14,7 @@ st.set_page_config(
 
 st.title("📡 Connectivity Health Monitoring Dashboard")
 st.write("Monitor your network devices and proactively address issues.")
+
 
 # Fetch data from the network health API
 @st.cache_data
