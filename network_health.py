@@ -16,6 +16,38 @@ def network_health():
     # GET AVG UPTIME
     average_uptime = (datetime.now() - maintenance_logs['maintenance_date']).dt.days.mean()
 
-    print(devices_active)
+    # GET FAILURE RATE
+    failure_data['failure_date'] = pd.to_datetime(failure_data['failure_date'])
+    total_failures = len(failure_data)
+    total_days_in_service = total_devices * average_uptime
+    failures_per_device = total_failures / total_devices
+    failure_rate =  failures_per_device / (total_days_in_service / total_devices)
+
+    # GET TRAFFIC LOAD
+    traffic_load = total_failures * 10
+
+    # GET OVERALL HEALTH
+    overall_health = ""
+
+    if failure_rate < 0.01 and traffic_load < 500:
+        overall_health = "Excellent"
+    elif failure_rate < 0.05:
+        overall_health = "Good"
+    elif failure_rate < 0.10:
+        overall_health = "Fair"
+    else:
+        overall_health = "Poor"
+
+    # MAKE RESPONSE
+    response = {
+        "total_devices": total_devices,
+        "devices_active": devices_active,
+        "average_uptime": round(average_uptime, 2),
+        "failure_rate": round(failure_rate, 4),
+        "traffic_load": traffic_load,
+        "overall_health": overall_health
+    }
+
+    print(response)
 
 network_health()
