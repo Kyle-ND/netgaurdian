@@ -11,22 +11,28 @@ RABBITMQ_URL = os.getenv('RABBITMQ_URL')
 NTFY_TOPIC = os.getenv('NTFY_TOPIC')
 
 logging.basicConfig(level=logging.INFO,format='%(asctime)s - %(levelname)s - %(message)s')
-
+ALERT_KEYWORDS = ["Critical", "Urgent", "High Priority"] 
 
 def alert_admin_callback(ch, method, properties, body):
     """Callback function to handle incoming messages."""
     message = body.decode('utf-8')
     logging.info(f"Received alert: {message}")
-    if "Critical" in message:
-        try:
-            ntfy.publish(topic=NTFY_TOPIC,message=message,
-                            title="PC Maintenance Alert",
-                            priority="high")
-            logging.info("Sent notification using ntfy.")
-        except Exception as e:
-            logging.error(f"Error sending ntfy notification: {e}")
-    else:
-         logging.info("Message ignored, not critical")
+    
+    notified = 0
+    for keyword in ALERT_KEYWORDS:
+        if keyword in message:
+            try:
+                ntfy.publish(topic=NTFY_TOPIC,message=message,
+                                title="PC Maintenance Alert",
+                                priority="high")
+                logging.info("Sent notification using ntfy.")
+                notified = 1
+                break
+            except Exception as e:
+                logging.error(f"Error sending ntfy notification: {e}")
+
+    if not notified:
+        logging.info("Message ignored, not critical")
 
 def start_alert_service():
     """Sets up the RabbitMQ connection and starts consuming messages."""
