@@ -3,8 +3,9 @@ import requests
 import pandas as pd
 
 # Replace with the actual API endpoints
-NETWORK_HEALTH_API = "http://localhost:5000/network-health"  # Update the URL to match your Flask API
-DEVICES_API = "http://localhost:5000/devices"  # Endpoint for devices data. You'll add the endpoint here
+NETWORK_HEALTH_API = "http://localhost:5000/network-health" # Update the URL to match your Flask API
+DEVICES_API = "http://localhost:5000/devices" # Endpoint for devices data. You'll add the endpoint here
+
 
 st.set_page_config(
     page_title="Connectivity Health Monitoring Dashboard",
@@ -20,7 +21,9 @@ st.write("Monitor your network devices and proactively address issues.")
 @st.cache_data
 def fetch_network_health():
     try:
+        print(f"Fetching network health from: {NETWORK_HEALTH_API}")
         response = requests.get(NETWORK_HEALTH_API)
+        print(f"Response status code: {response.status_code}")
         response.raise_for_status()
         return response.json()  # This will be the health data from your Flask app
     except requests.exceptions.RequestException as e:
@@ -31,7 +34,9 @@ def fetch_network_health():
 @st.cache_data
 def fetch_devices():
     try:
+        print(f"Fetching devices from: {DEVICES_API}")
         response = requests.get(DEVICES_API)
+        print(f"Response status code: {response.status_code}")
         response.raise_for_status()
         return response.json()  # This will be the devices data from your Flask app
     except requests.exceptions.RequestException as e:
@@ -83,12 +88,14 @@ if devices_data:
         col1, col2, col3 = st.columns([2, 1, 1])
         col1.text(f"🔧 {device['name']} (ID: {device['device_id']})")
         col2.text(f"Uptime: {device['uptime_percentage']}%")
-        col3.button(
-            "View Health",
-            key=device["device_id"],
-            on_click=lambda d=device: st.session_state.update({"current_device": d}),
-            args=(device,)
-        )
+        device_health_url = f"/device_health?device_id={device['device_id']}"
+        col3.markdown(f'<a href="{device_health_url}" target="_self">View Health</a>', unsafe_allow_html=True)
+        # col3.button(
+        #     "View Health",
+        #     key=device["device_id"],
+        #     on_click=lambda d=device: st.session_state.update({"current_device": d}),
+        #     args=(device,)
+        # )
 
     # Pagination buttons
     num_pages = len(device_df) // st.session_state.devices_per_page
