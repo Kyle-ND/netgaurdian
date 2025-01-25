@@ -72,7 +72,7 @@ def render_device_health(device_id):
         st.warning("This device needs maintenance. Please schedule a service.")
 
 # Get the device ID from query parameters
-query_params = st.query_params()
+query_params = st.query_params
 device_id = query_params.get("device_id", [None])[0]
 
 if device_id:
