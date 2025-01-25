@@ -3,6 +3,7 @@ from utils.alert_consumer import send_ntfy_notification
 import joblib  # For loading the trained model
 import pandas as pd
 from utils.get_health import get_health
+from utils.get_devices import get_devices
 
 app = Flask(__name__)
 
@@ -36,6 +37,15 @@ def network_health():
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"error": e}), 500
+
+@app.route('/devices', methods=['GET'])
+def devices():
+    try:
+        response = get_devices()
+        return jsonify(response), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
