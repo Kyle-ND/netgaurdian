@@ -26,6 +26,7 @@
 
 import streamlit as st
 import pandas as pd
+import requests
 
 # Ensure the page has the right configuration
 st.set_page_config(
@@ -34,28 +35,37 @@ st.set_page_config(
     layout="wide"
 )
 
-# Mock Data: This should match the mocked data in main.py
-def mock_device_data():
-    return [
-        {"device_id": "Device001", "name": "Router A", "uptime_percentage": 95.0, "status": "Healthy"},
-        {"device_id": "Device002", "name": "Switch B", "uptime_percentage": 80.0, "status": "Needs Maintenance"},
-        {"device_id": "Device003", "name": "Firewall C", "uptime_percentage": 99.0, "status": "Healthy"},
-        {"device_id": "Device004", "name": "Access Point D", "uptime_percentage": 70.0, "status": "Needs Maintenance"},
-        {"device_id": "Device005", "name": "Modem E", "uptime_percentage": 88.5, "status": "Healthy"},
-    ]
+# # Mock Data: This should match the mocked data in main.py
+# def mock_device_data():
+#     return [
+#         {"device_id": "Device001", "name": "Router A", "uptime_percentage": 95.0, "status": "Healthy"},
+#         {"device_id": "Device002", "name": "Switch B", "uptime_percentage": 80.0, "status": "Needs Maintenance"},
+#         {"device_id": "Device003", "name": "Firewall C", "uptime_percentage": 99.0, "status": "Healthy"},
+#         {"device_id": "Device004", "name": "Access Point D", "uptime_percentage": 70.0, "status": "Needs Maintenance"},
+#         {"device_id": "Device005", "name": "Modem E", "uptime_percentage": 88.5, "status": "Healthy"},
+#     ]
 
-# not done with this one
-# Function to fetch device by ID
-def get_device_by_id(device_id):
-    devices = mock_device_data()
-    for device in devices:
-        if device["device_id"] == device_id:
-            return device
-    return None
+# # not done with this one
+# # Function to fetch device by ID
+# def get_device_by_id(device_id):
+#     devices = mock_device_data()
+#     for device in devices:
+#         if device["device_id"] == device_id:
+#             return device
+#     return None
 
 # Main device health page logic
 def render_device_health(device_id):
-    device = get_device_by_id(device_id)
+    devices_api_url = "http://localhost:5000/devices" # URL of the flask application devices api endpoint
+    try:
+        response = requests.get(devices_api_url) # request the data from the flask api
+        response.raise_for_status()
+        devices = response.json()  # get json data
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching devices data: {e}")
+        return
+    
+    device = next((d for d in devices if d["device_id"] == device_id), None)
     if not device:
         st.error("Device not found.")
         return
