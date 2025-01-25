@@ -26,6 +26,10 @@
 
 import streamlit as st
 import pandas as pd
+import requests
+
+# Endpoint for fetching device data
+DEVICES_API = "http://localhost:5000/devices"
 
 # Ensure the page has the right configuration
 st.set_page_config(
@@ -34,48 +38,41 @@ st.set_page_config(
     layout="wide"
 )
 
-# Mock Data: This should match the mocked data in main.py
-def mock_device_data():
-    return [
-        {"device_id": "Device001", "name": "Router A", "uptime_percentage": 95.0, "status": "Healthy"},
-        {"device_id": "Device002", "name": "Switch B", "uptime_percentage": 80.0, "status": "Needs Maintenance"},
-        {"device_id": "Device003", "name": "Firewall C", "uptime_percentage": 99.0, "status": "Healthy"},
-        {"device_id": "Device004", "name": "Access Point D", "uptime_percentage": 70.0, "status": "Needs Maintenance"},
-        {"device_id": "Device005", "name": "Modem E", "uptime_percentage": 88.5, "status": "Healthy"},
-    ]
+st.title("🛠️ Device Health Details")
 
-# not done with this one
-# Function to fetch device by ID
-def get_device_by_id(device_id):
-    devices = mock_device_data()
-    for device in devices:
-        if device["device_id"] == device_id:
-            return device
-    return None
+# Function to fetch device data
+@st.cache_data
+def fetch_devices():
+    try:
+        response = requests.get(DEVICES_API)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching devices data: {e}")
+        return []
 
-# Main device health page logic
-def render_device_health(device_id):
-    device = get_device_by_id(device_id)
-    if not device:
-        st.error("Device not found.")
-        return
-
-    st.title(f"🔍 Device Health: {device['name']}")
-    st.write(f"**Device ID:** {device['device_id']}")
-    st.write(f"**Uptime Percentage:** {device['uptime_percentage']}%")
-    st.write(f"**Health Status:** {device['status']}")
-
-    # Conditional visual feedback
-    if device["status"] == "Healthy":
-        st.success("The device is operating normally.")
-    else:
-        st.warning("This device needs maintenance. Please schedule a service.")
-
-# Get the device ID from query parameters
-query_params = st.query_params
+# Extract query parameter
+query_params = st.query_params 
 device_id = query_params.get("device_id", [None])[0]
 
-if device_id:
-    render_device_health(device_id)
+if not device_id:
+    st.error("Device ID not provided in the query parameters.")
 else:
-    st.error("No device selected. Please go back and choose a device.")
+    # Fetch all devices
+    devices = fetch_devices()
+
+    # Debugging: Display the fetched devices
+    st.write("Fetched Devices (for debugging):", devices)
+
+    # Find the specific device by ID
+    current_device = next((device for device in devices if device["device_id"] == device_id), None)
+
+    if not current_device:
+        st.error(f"No device found with ID: {device_id}")
+    else:
+        # Display device health details
+        st.subheader(f"🔧 {current_device['name']} (ID: {current_device['device_id']})")
+        st.metric("Uptime Percentage", f"{current_device['uptime_percentage']}%")
+        st.metric("Status", current_device["status"])
+        st.metric("Failure Rate", f"{current_device.get('failure_rate', 'N/A')}%")
+        st.metric("Average Response Time", f"{current_device.get('avg_response_time', 'N/A')} ms")
