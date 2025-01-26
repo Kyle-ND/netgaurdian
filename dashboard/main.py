@@ -3,8 +3,8 @@ import requests
 import pandas as pd
 
 # Replace with the actual API endpoints
-NETWORK_HEALTH_API = "http://localhost:5000/network-health" # Update the URL to match your Flask API
-DEVICES_API = "http://localhost:5000/devices" # Endpoint for devices data. You'll add the endpoint here
+NETWORK_HEALTH_API = "https://netgaurdian-3f80.onrender.com/network-health" # Update the URL to match your Flask API
+DEVICES_API = "https://netgaurdian-3f80.onrender.com/devices" # Endpoint for devices data. You'll add the endpoint here
 
 
 st.set_page_config(
