@@ -30,6 +30,8 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)})
     
+
+    
 @app.route('/network-health', methods=['GET'])
 def network_health():
     try:
