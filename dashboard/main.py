@@ -4,7 +4,8 @@ import pandas as pd
 
 # Replace with the actual API endpoints
 NETWORK_HEALTH_API = "https://netgaurdian-3f80.onrender.com/network-health" # Update the URL to match your Flask API
-DEVICES_API = "https://netgaurdian-3f80.onrender.com/devices" # Endpoint for devices data. You'll add the endpoint here
+DEVICES_API = "https://netgaurdian-3f80.onrender.com/devices"
+PREDICT_MAINTENANCE_API = "htt`ps://netgaurdian-3f80.onrender.com/predict-maintenance"
 
 
 st.set_page_config(
@@ -88,14 +89,15 @@ if devices_data:
         col1, col2, col3 = st.columns([2, 1, 1])
         col1.text(f"🔧 {device['name']} (ID: {device['device_id']})")
         col2.text(f"Uptime: {device['uptime_percentage']}%")
-        device_health_url = f"/device_health?device_id={device['device_id']}"
-        col3.markdown(f'<a href="{device_health_url}" target="_self">View Health</a>', unsafe_allow_html=True)
-        # col3.button(
-        #     "View Health",
-        #     key=device["device_id"],
-        #     on_click=lambda d=device: st.session_state.update({"current_device": d}),
-        #     args=(device,)
-        # )
+        if col3.button("View Health", key=device['device_id']):
+            # Send device data to predict-maintenance endpoint
+            try:
+                response = requests.post(PREDICT_MAINTENANCE_API, json=device.to_dict())
+                response.raise_for_status()
+                prediction = response.json()
+                st.success(f"Prediction: {prediction.get('result', 'No result available')}")
+            except requests.exceptions.RequestException as e:
+                st.error(f"Error predicting maintenance: {e}")
 
     # Pagination buttons
     num_pages = len(device_df) // st.session_state.devices_per_page
