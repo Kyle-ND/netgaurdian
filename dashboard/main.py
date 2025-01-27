@@ -3,9 +3,11 @@ import requests
 import pandas as pd
 
 # Replace with the actual API endpoints
-NETWORK_HEALTH_API = "https://netgaurdian-3f80.onrender.com/network-health" # Update the URL to match your Flask API
-DEVICES_API = "https://netgaurdian-3f80.onrender.com/devices"
-PREDICT_MAINTENANCE_API = "htt`ps://netgaurdian-3f80.onrender.com/predict-maintenance"
+Deployed_API = "https://netgaurdian-3f80.onrender.com"
+Test_API = "http://localhost:5000"
+NETWORK_HEALTH_API = f"{Deployed_API}/network-health" # Update the URL to match your Flask API
+DEVICES_API = f"{Deployed_API}/devices"
+PREDICT_MAINTENANCE_API = f"{Deployed_API}/predict-maintenance"
 
 
 st.set_page_config(
@@ -48,6 +50,7 @@ def fetch_devices():
 health_data = fetch_network_health()
 devices_data = fetch_devices()
 
+
 # Metrics Section
 st.subheader("📊 Network Metrics")
 if health_data:
@@ -84,18 +87,33 @@ if devices_data:
     end_idx = start_idx + st.session_state.devices_per_page
     devices_to_display = device_df.iloc[start_idx:end_idx]
 
+    
     # Display devices in the current page
     for _, device in devices_to_display.iterrows():
         col1, col2, col3 = st.columns([2, 1, 1])
-        col1.text(f"🔧 {device['name']} (ID: {device['device_id']})")
-        col2.text(f"Uptime: {device['uptime_percentage']}%")
+        col1.text(f"🔧 Device {device['device_id']%1000} (ID: {device['device_id']})")
+        col2.text(f"Uptime: {device['average_usage']}%")
+        
         if col3.button("View Health", key=device['device_id']):
-            # Send device data to predict-maintenance endpoint
+            # Filter and prepare device data for the API request
+            
+            device_data = {
+                "device_id": device["device_id"],
+                "time_since_last_maintenance": device["time_since_last_maintenance"],
+                "average_usage": device["average_usage"],
+                "failure_count": device["failure_count"],
+                }
             try:
-                response = requests.post(PREDICT_MAINTENANCE_API, json=device.to_dict())
+                # Send device data to predict-maintenance endpoint
+                response = requests.post(PREDICT_MAINTENANCE_API, json=device_data)
                 response.raise_for_status()
-                prediction = response.json()
-                st.success(f"Prediction: {prediction.get('result', 'No result available')}")
+                
+                # Parse and display the prediction result
+                prediction = response.json().get('result')
+                if prediction['maintenance_required']:
+                    st.warning(f"Device {prediction['device_id']} might require maintenance")
+                else:
+                    st.success(f"Device healthy")
             except requests.exceptions.RequestException as e:
                 st.error(f"Error predicting maintenance: {e}")
 
