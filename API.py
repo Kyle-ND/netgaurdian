@@ -13,21 +13,29 @@ model = joblib.load('./models/maintenance_predictor_model_5.pkl')  # Load the tr
 def predict():
     try:
         data = request.get_json()
+        required_keys = ['time_since_last_maintenance', 'average_usage', 'failure_count']
+        for key in required_keys:
+            if key not in data:
+                return jsonify({"error": f"Missing key: {key}"}), 400
         df = pd.DataFrame([data])
         processed_data = df[['time_since_last_maintenance', 'average_usage', 'failure_count']]
         prediction = model.predict(processed_data)[0]
         prediction_proba = model.predict_proba(processed_data).max()
         if prediction:
             send_ntfy_notification(f"Device {data['device_id']} requires maintenance.")
-            
-        result = {
+            pass
+        print(f"Prediction: {bool(prediction)}")
+        result = {"result": {
             "device_id": data['device_id'],
             "maintenance_required": bool(prediction),
-            "confidence": round(prediction_proba, 2)
+            "confidence": round(prediction_proba, 2),
+            }
         }
+        print(result)
         return jsonify(result)
     
     except Exception as e:
+        print(e)
         return jsonify({"error": str(e)})
     
 
