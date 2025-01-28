@@ -5,9 +5,10 @@ def get_health():
     try:
         maintenance_logs = pd.read_csv('datasets/maintenance_logs.csv')
         failure_data = pd.read_csv('datasets/failure_data.csv')
+        device_data = pd.read_csv('datasets/devices_data_100.csv')
 
         # GET TOTAL DEVICES
-        total_devices = maintenance_logs['device_id'].nunique()
+        total_devices = device_data['device_id'].nunique()
 
         # GET DEVICES THAT ARE ACTIVE - RECENTLY MENTAINED ONES
         recent_date_threshold = datetime.now() - pd.Timedelta(days=90)
